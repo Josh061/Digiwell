@@ -1,9 +1,11 @@
+import { Flame, TrendingUp, FileCheck, Truck, DollarSign } from 'lucide-react';
+
 export default function AdminDashboard() {
   const stats = [
-    { label: 'Total Applications', value: '1,247', change: '+12.5%', color: 'text-[#00D4FF]' },
-    { label: 'Approved Bids', value: '892', change: '+8.3%', color: 'text-green-400' },
-    { label: 'Processing Fees', value: '$2.4M', change: '+15.7%', color: 'text-[#D4AF37]' },
-    { label: 'Active Deliveries', value: '156', change: '+5.2%', color: 'text-yellow-400' }
+    { label: 'Total Applications', value: '1,247', change: '+12.5%', icon: FileCheck, gradient: 'from-flame-core to-flame-hot' },
+    { label: 'Approved Bids', value: '892', change: '+8.3%', icon: TrendingUp, gradient: 'from-green-500 to-emerald-500' },
+    { label: 'Processing Fees', value: '$2.4M', change: '+15.7%', icon: DollarSign, gradient: 'from-flame-hot to-orange-500' },
+    { label: 'Active Deliveries', value: '156', change: '+5.2%', icon: Truck, gradient: 'from-amber-500 to-yellow-500' }
   ];
 
   const recentApplications = [
@@ -14,45 +16,66 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-2">
+        <div className="p-2 bg-flame-core/20 rounded-xl">
+          <Flame className="h-6 w-6 text-flame-hot" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-flame-light">Admin Dashboard</h2>
+          <p className="text-flame-light/60 text-sm">Monitor platform activity and transactions</p>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
-          <div key={idx} className="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-xl border border-slate-700">
-            <div className="text-slate-400 text-sm mb-2">{stat.label}</div>
-            <div className={`text-3xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
-            <div className="text-green-400 text-sm">{stat.change}</div>
+          <div key={idx} className="bg-gradient-to-br from-flame-dark to-flame-dark/80 p-6 rounded-2xl border border-flame-core/20 hover:border-flame-core/40 transition-all group">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.gradient} shadow-lg`}>
+                <stat.icon className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-green-400 text-sm font-semibold bg-green-500/10 px-2 py-1 rounded-full">{stat.change}</span>
+            </div>
+            <div className="text-flame-light/60 text-sm mb-1">{stat.label}</div>
+            <div className="text-3xl font-bold text-flame-light group-hover:text-flame-hot transition-colors">{stat.value}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700 overflow-hidden">
-        <div className="p-6 border-b border-slate-700">
-          <h3 className="text-xl font-bold text-white">Recent Applications</h3>
+      {/* Recent Applications Table */}
+      <div className="bg-gradient-to-br from-flame-dark to-flame-dark/80 rounded-2xl border border-flame-core/20 overflow-hidden">
+        <div className="p-6 border-b border-flame-core/20 bg-gradient-to-r from-flame-core/10 to-transparent">
+          <h3 className="text-xl font-bold text-flame-light flex items-center gap-2">
+            <FileCheck className="h-5 w-5 text-flame-hot" />
+            Recent Applications
+          </h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-slate-800">
+            <thead className="bg-flame-dark/50">
               <tr>
-                <th className="text-left text-slate-400 p-4 text-sm">Application ID</th>
-                <th className="text-left text-slate-400 p-4 text-sm">Company</th>
-                <th className="text-left text-slate-400 p-4 text-sm">Product</th>
-                <th className="text-left text-slate-400 p-4 text-sm">Quantity</th>
-                <th className="text-left text-slate-400 p-4 text-sm">Amount</th>
-                <th className="text-left text-slate-400 p-4 text-sm">Status</th>
+                <th className="text-left text-flame-light/60 p-4 text-sm font-medium">Application ID</th>
+                <th className="text-left text-flame-light/60 p-4 text-sm font-medium">Company</th>
+                <th className="text-left text-flame-light/60 p-4 text-sm font-medium">Product</th>
+                <th className="text-left text-flame-light/60 p-4 text-sm font-medium">Quantity</th>
+                <th className="text-left text-flame-light/60 p-4 text-sm font-medium">Amount</th>
+                <th className="text-left text-flame-light/60 p-4 text-sm font-medium">Status</th>
               </tr>
             </thead>
             <tbody>
               {recentApplications.map((app, idx) => (
-                <tr key={idx} className="border-t border-slate-700 hover:bg-slate-800/50">
-                  <td className="p-4 text-[#00D4FF] font-mono">{app.id}</td>
-                  <td className="p-4 text-white">{app.company}</td>
-                  <td className="p-4 text-slate-300">{app.product}</td>
-                  <td className="p-4 text-slate-300">{app.quantity}</td>
-                  <td className="p-4 text-[#D4AF37] font-bold">{app.amount}</td>
+                <tr key={idx} className="border-t border-flame-core/10 hover:bg-flame-core/5 transition-colors">
+                  <td className="p-4 text-flame-hot font-mono font-semibold">{app.id}</td>
+                  <td className="p-4 text-flame-light">{app.company}</td>
+                  <td className="p-4 text-flame-light/70">{app.product}</td>
+                  <td className="p-4 text-flame-light/70">{app.quantity}</td>
+                  <td className="p-4 text-flame-core font-bold">{app.amount}</td>
                   <td className="p-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      app.status === 'Approved' ? 'bg-green-500/20 text-green-400' :
-                      app.status === 'In Transit' ? 'bg-blue-500/20 text-blue-400' :
-                      'bg-yellow-500/20 text-yellow-400'
+                      app.status === 'Approved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                      app.status === 'In Transit' ? 'bg-flame-core/20 text-flame-hot border border-flame-core/30' :
+                      'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
                     }`}>
                       {app.status}
                     </span>

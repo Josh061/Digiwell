@@ -7,6 +7,7 @@ import CreateEscrowModal from '@/components/CreateEscrowModal';
 import DisputeModal from '@/components/DisputeModal';
 import GPSTracker from '@/components/GPSTracker';
 import { toast } from 'sonner';
+import { Shield, Plus, Flame } from 'lucide-react';
 
 export default function EscrowDashboard() {
   const [escrows, setEscrows] = useState<any[]>([]);
@@ -113,38 +114,57 @@ export default function EscrowDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-3xl font-bold text-white">Escrow Dashboard</h2>
-          <p className="text-slate-400">Secure petroleum trading with automated fund release</p>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-gradient-to-br from-flame-core to-flame-hot rounded-xl shadow-lg shadow-flame-core/30">
+            <Shield className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-flame-light">Escrow Dashboard</h2>
+            <p className="text-flame-light/60">Secure petroleum trading with automated fund release</p>
+          </div>
         </div>
-        <Button onClick={() => setShowCreateModal(true)}>Create Escrow</Button>
+        <Button
+          onClick={() => setShowCreateModal(true)}
+          className="bg-gradient-to-r from-flame-core to-flame-hot hover:from-flame-hot hover:to-flame-core text-white shadow-lg shadow-flame-core/30"
+        >
+          <Plus className="h-4 w-4 mr-2" /> Create Escrow
+        </Button>
       </div>
 
-      <div className="flex gap-4 mb-6">
-        <Button 
-          variant={userRole === 'buyer' ? 'default' : 'outline'}
+      {/* Role Toggle */}
+      <div className="flex gap-3 p-1 bg-flame-dark/50 rounded-xl border border-flame-core/20 w-fit">
+        <Button
+          variant="ghost"
           onClick={() => setUserRole('buyer')}
+          className={`${userRole === 'buyer'
+            ? 'bg-gradient-to-r from-flame-core to-flame-hot text-white shadow-lg'
+            : 'text-flame-light/60 hover:text-flame-light hover:bg-flame-core/10'}`}
         >
           Buyer View
         </Button>
-        <Button 
-          variant={userRole === 'seller' ? 'default' : 'outline'}
+        <Button
+          variant="ghost"
           onClick={() => setUserRole('seller')}
+          className={`${userRole === 'seller'
+            ? 'bg-gradient-to-r from-flame-core to-flame-hot text-white shadow-lg'
+            : 'text-flame-light/60 hover:text-flame-light hover:bg-flame-core/10'}`}
         >
           Seller View
         </Button>
       </div>
 
-      <Tabs defaultValue="active">
-        <TabsList>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-          <TabsTrigger value="disputed">Disputed</TabsTrigger>
+      {/* Tabs */}
+      <Tabs defaultValue="active" className="space-y-4">
+        <TabsList className="bg-flame-dark/50 border border-flame-core/20 p-1">
+          <TabsTrigger value="active" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-flame-core data-[state=active]:to-flame-hot data-[state=active]:text-white">Active</TabsTrigger>
+          <TabsTrigger value="completed" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-flame-core data-[state=active]:to-flame-hot data-[state=active]:text-white">Completed</TabsTrigger>
+          <TabsTrigger value="disputed" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-flame-core data-[state=active]:to-flame-hot data-[state=active]:text-white">Disputed</TabsTrigger>
         </TabsList>
         <TabsContent value="active" className="space-y-4">
           {escrows.filter(e => ['funds_held', 'in_transit', 'delivered'].includes(e.status)).map(escrow => (
-            <EscrowCard 
+            <EscrowCard
               key={escrow.escrowId}
               escrow={escrow}
               userRole={userRole}
@@ -157,12 +177,18 @@ export default function EscrowDashboard() {
         </TabsContent>
         <TabsContent value="completed">
           {escrows.filter(e => e.status === 'completed').length === 0 ? (
-            <p className="text-slate-400 text-center py-8">No completed transactions</p>
+            <div className="text-center py-12 bg-flame-dark/30 rounded-2xl border border-flame-core/20">
+              <Flame className="h-12 w-12 text-flame-core/40 mx-auto mb-3" />
+              <p className="text-flame-light/40">No completed transactions</p>
+            </div>
           ) : null}
         </TabsContent>
         <TabsContent value="disputed">
           {escrows.filter(e => e.status === 'disputed').length === 0 ? (
-            <p className="text-slate-400 text-center py-8">No disputed transactions</p>
+            <div className="text-center py-12 bg-flame-dark/30 rounded-2xl border border-flame-core/20">
+              <Flame className="h-12 w-12 text-flame-core/40 mx-auto mb-3" />
+              <p className="text-flame-light/40">No disputed transactions</p>
+            </div>
           ) : null}
         </TabsContent>
       </Tabs>
