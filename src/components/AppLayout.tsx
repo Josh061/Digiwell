@@ -20,7 +20,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, User, Shield, Wallet, TrendingUp, Settings, Flame, Zap, MapPin, Lock } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Menu, Home, User, Shield, Wallet, TrendingUp, Settings, Flame, Zap, MapPin, Lock, X, Target, Eye, FileText, ShieldCheck, Globe } from 'lucide-react';
 
 
 
@@ -33,6 +35,7 @@ export default function AppLayout() {
   const [activeTab, setActiveTab] = useState('products');
   const [authView, setAuthView] = useState<'login' | 'signup'>('login');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLegalModal, setShowLegalModal] = useState<'terms' | 'privacy' | 'compliance' | null>(null);
 
   const tabs = [
     { id: 'products', label: 'Products', icon: Home, roles: ['admin', 'trader', 'viewer'] },
@@ -412,15 +415,42 @@ export default function AppLayout() {
         <div className="absolute top-0 left-1/4 right-1/4 h-20 bg-flame-core/5 blur-3xl"></div>
 
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16 relative z-10">
+          {/* Mission & Vision Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div className="bg-gradient-to-br from-flame-core/10 to-flame-hot/5 border border-flame-core/20 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <Target className="h-6 w-6 text-flame-hot" />
+                <h4 className="text-flame-light font-bold text-lg">Our Mission</h4>
+              </div>
+              <p className="text-flame-light/70 text-sm leading-relaxed">
+                To leverage cutting-edge technology to attain sustainable energy with global footprints.
+              </p>
+            </div>
+            <div className="bg-gradient-to-br from-flame-hot/10 to-flame-core/5 border border-flame-hot/20 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <Eye className="h-6 w-6 text-flame-core" />
+                <h4 className="text-flame-light font-bold text-lg">Our Vision</h4>
+              </div>
+              <p className="text-flame-light/70 text-sm leading-relaxed">
+                To be a leading multinational energy company through the exploration and trade of real-world assets to power a future digital economy.
+              </p>
+            </div>
+          </div>
+
+          <div className="flame-divider my-8"></div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             <div>
               <h3 className="text-flame font-flame font-bold text-2xl mb-4 flex items-center gap-2">
                 <Flame className="h-6 w-6 text-flame-hot" />
-                Digiwell
+                Digiwell Trading
               </h3>
-              <p className="text-flame-light/60 text-sm leading-relaxed">
-                A next-generation petroleum trading hub with flame-fast execution, blockchain settlement, and real-time logistics.
+              <p className="text-flame-light/60 text-sm leading-relaxed mb-3">
+                Professional petroleum trading platform for real-world assets and digital economy solutions.
               </p>
+              <a href="https://www.digiwelltrading.com" target="_blank" rel="noopener noreferrer" className="text-flame-hot hover:text-flame-core transition-colors text-sm flex items-center gap-1">
+                <Globe className="h-4 w-4" /> www.digiwelltrading.com
+              </a>
             </div>
             <div>
               <h4 className="text-flame-light font-semibold mb-6">Products</h4>
@@ -428,6 +458,7 @@ export default function AppLayout() {
                 <li><a href="#" className="hover:text-flame-hot transition-colors">Crude Oil</a></li>
                 <li><a href="#" className="hover:text-flame-hot transition-colors">Natural Gas</a></li>
                 <li><a href="#" className="hover:text-flame-hot transition-colors">Aviation Fuel</a></li>
+                <li><a href="#" className="hover:text-flame-hot transition-colors">Real-World Assets</a></li>
               </ul>
             </div>
             <div>
@@ -441,18 +472,94 @@ export default function AppLayout() {
             <div>
               <h4 className="text-flame-light font-semibold mb-6">Legal</h4>
               <ul className="space-y-3 text-flame-light/60 text-sm">
-                <li><a href="#" className="hover:text-flame-hot transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-flame-hot transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-flame-hot transition-colors">Compliance</a></li>
+                <li><button onClick={() => setShowLegalModal('terms')} className="hover:text-flame-hot transition-colors flex items-center gap-1"><FileText className="h-3 w-3" /> Terms of Service</button></li>
+                <li><button onClick={() => setShowLegalModal('privacy')} className="hover:text-flame-hot transition-colors flex items-center gap-1"><ShieldCheck className="h-3 w-3" /> Privacy Policy</button></li>
+                <li><button onClick={() => setShowLegalModal('compliance')} className="hover:text-flame-hot transition-colors flex items-center gap-1"><Shield className="h-3 w-3" /> Compliance</button></li>
               </ul>
             </div>
           </div>
           <div className="flame-divider my-8"></div>
           <div className="text-center text-flame-light/50 text-sm">
-            © 2025 Digiwell. All rights reserved. <span className="text-flame-hot">Powered by Flame Technology</span>
+            © 2025 Digiwell Trading. All rights reserved. <span className="text-flame-hot">Powered by Flame Technology</span>
           </div>
         </div>
       </footer>
+
+      {/* Legal Modals */}
+      <Dialog open={showLegalModal !== null} onOpenChange={() => setShowLegalModal(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh] bg-flame-dark border-flame-core/30">
+          <DialogHeader>
+            <DialogTitle className="text-flame-light flex items-center gap-2 text-xl">
+              {showLegalModal === 'terms' && <><FileText className="h-5 w-5 text-flame-hot" /> Trading Agreement</>}
+              {showLegalModal === 'privacy' && <><ShieldCheck className="h-5 w-5 text-flame-hot" /> Privacy Policy</>}
+              {showLegalModal === 'compliance' && <><Shield className="h-5 w-5 text-flame-hot" /> Compliance</>}
+            </DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="h-[60vh] pr-4">
+            {showLegalModal === 'terms' && (
+              <div className="text-flame-light/80 text-sm space-y-6">
+                <div className="text-center border-b border-flame-core/20 pb-4">
+                  <h2 className="text-flame-hot font-bold text-lg">Petroleum Products & Real-World Assets Trading Agreement</h2>
+                  <p className="text-flame-light/60 mt-1">Between Digiwell Trading (www.digiwelltrading.com) and Users/Digital Traders</p>
+                </div>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">1. Introduction</h3><ul className="list-disc pl-5 space-y-1"><li>This Agreement governs the relationship between Digiwell Trading ("Company") and its registered users/digital traders ("Users").</li><li>By accessing or using Digiwell Trading's platform, Users agree to comply with the terms and conditions herein.</li><li>This Agreement applies to all transactions involving petroleum products and other real-world assets facilitated through Digiwell Trading.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">2. Definitions</h3><ul className="list-disc pl-5 space-y-1"><li><strong>"Platform"</strong> – www.digiwelltrading.com and associated applications.</li><li><strong>"User"</strong> – Any individual or entity registered to trade via the Platform.</li><li><strong>"Digital Trader"</strong> – A User actively engaged in trading petroleum products or real-world assets.</li><li><strong>"Assets"</strong> – Petroleum products, commodities, or other real-world assets listed for trade.</li><li><strong>"Transaction"</strong> – Any purchase, sale, or exchange of Assets executed via the Platform.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">3. Eligibility</h3><ul className="list-disc pl-5 space-y-1"><li>Users must be at least 18 years old and legally capable of entering into binding contracts.</li><li>Corporate entities must provide valid incorporation documents and proof of authorization.</li><li>Users must comply with applicable laws, including trade, export, and financial regulations.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">4. User Obligations</h3><ul className="list-disc pl-5 space-y-1"><li>Provide accurate registration details and maintain updated account information.</li><li>Ensure compliance with international trade laws, sanctions, and anti-money laundering (AML) regulations.</li><li>Refrain from fraudulent, manipulative, or unlawful trading activities.</li><li>Maintain confidentiality of login credentials and trading data.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">5. Company Obligations</h3><ul className="list-disc pl-5 space-y-1"><li>Provide a secure and transparent trading platform.</li><li>Facilitate transactions in accordance with applicable laws.</li><li>Implement risk management, compliance, and anti-fraud measures.</li><li>Provide dispute resolution mechanisms.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">6. Trading Terms</h3><ul className="list-disc pl-5 space-y-1"><li>All trades are subject to market availability and verification of counterparties.</li><li>Prices are determined by market conditions and may fluctuate.</li><li>Digiwell Trading reserves the right to suspend or cancel trades suspected of fraud or illegality.</li><li>Settlement of trades must occur within agreed timelines; failure to settle may result in penalties.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">7. Payment & Settlement</h3><ul className="list-disc pl-5 space-y-1"><li>Payments must be made via approved financial channels.</li><li>Digiwell Trading may hold funds in escrow until transaction completion.</li><li>Users are responsible for applicable taxes, duties, and fees.</li><li>Late payments may incur interest charges.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">8. Risk Disclosure</h3><ul className="list-disc pl-5 space-y-1"><li>Trading petroleum products and real-world assets involves market, regulatory, and operational risks.</li><li>Digiwell Trading does not guarantee profits or protection against losses.</li><li>Users acknowledge full responsibility for their trading decisions.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">9. Compliance & Legal Restrictions</h3><ul className="list-disc pl-5 space-y-1"><li>Users must comply with international sanctions, embargoes, and trade restrictions.</li><li>Digiwell Trading may refuse service to Users from restricted jurisdictions.</li><li>All transactions are subject to Know Your Customer (KYC) and AML checks.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">10. Intellectual Property</h3><ul className="list-disc pl-5 space-y-1"><li>All content, trademarks, and software on the Platform are owned by Digiwell Trading.</li><li>Users may not copy, modify, or distribute Platform content without prior consent.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">11. Confidentiality</h3><ul className="list-disc pl-5 space-y-1"><li>Users must maintain confidentiality of trade data, counterparties, and proprietary information.</li><li>Digiwell Trading will protect User data in accordance with applicable privacy laws.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">12. Limitation of Liability</h3><ul className="list-disc pl-5 space-y-1"><li>Digiwell Trading is not liable for indirect, incidental, or consequential damages.</li><li>Liability is limited to the amount of fees paid by the User for the disputed transaction.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">13. Termination</h3><ul className="list-disc pl-5 space-y-1"><li>Digiwell Trading may suspend or terminate User accounts for breach of this Agreement.</li><li>Users may terminate their account by providing written notice.</li><li>Termination does not affect obligations accrued prior to termination.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">14. Dispute Resolution</h3><ul className="list-disc pl-5 space-y-1"><li>Disputes shall first be resolved through negotiation.</li><li>If unresolved, disputes may be referred to arbitration under the rules of the International Chamber of Commerce (ICC).</li><li>Governing law: The laws of Nigeria (or jurisdiction specified by Digiwell Trading).</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">15. Amendments</h3><ul className="list-disc pl-5 space-y-1"><li>Digiwell Trading reserves the right to amend this Agreement at any time.</li><li>Continued use of the Platform constitutes acceptance of updated terms.</li></ul></section>
+
+                <section><h3 className="text-flame-core font-semibold mb-2">16. Entire Agreement</h3><ul className="list-disc pl-5 space-y-1"><li>This Agreement constitutes the entire understanding between Digiwell Trading and Users.</li><li>No oral or written statements outside this Agreement shall be binding.</li></ul></section>
+              </div>
+            )}
+            {showLegalModal === 'privacy' && (
+              <div className="text-flame-light/80 text-sm space-y-4">
+                <h2 className="text-flame-hot font-bold text-lg text-center border-b border-flame-core/20 pb-4">Privacy Policy</h2>
+                <p>Digiwell Trading is committed to protecting your privacy. This policy outlines how we collect, use, and safeguard your personal information.</p>
+                <section><h3 className="text-flame-core font-semibold mb-2">Data Collection</h3><p>We collect information you provide during registration, KYC verification, and trading activities including name, contact details, identification documents, and transaction history.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Data Usage</h3><p>Your data is used to verify identity, process transactions, comply with regulations, improve our services, and communicate important updates.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Data Protection</h3><p>We implement industry-standard security measures including encryption, secure servers, and access controls to protect your information.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Third-Party Sharing</h3><p>We do not sell your data. Information may be shared with regulatory authorities, payment processors, and service providers as required for platform operations.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Your Rights</h3><p>You have the right to access, correct, or delete your personal data. Contact us at privacy@digiwelltrading.com for requests.</p></section>
+              </div>
+            )}
+            {showLegalModal === 'compliance' && (
+              <div className="text-flame-light/80 text-sm space-y-4">
+                <h2 className="text-flame-hot font-bold text-lg text-center border-b border-flame-core/20 pb-4">Compliance Framework</h2>
+                <section><h3 className="text-flame-core font-semibold mb-2">Know Your Customer (KYC)</h3><p>All users must complete identity verification before trading. This includes government-issued ID, proof of address, and for corporate accounts, incorporation documents.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Anti-Money Laundering (AML)</h3><p>Digiwell Trading maintains robust AML procedures including transaction monitoring, suspicious activity reporting, and cooperation with regulatory authorities.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Sanctions Compliance</h3><p>We screen all users and transactions against international sanctions lists including UN, EU, OFAC, and other applicable sanctions regimes.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Regulatory Oversight</h3><p>Our operations comply with applicable laws in Nigeria and international trade regulations governing petroleum products and commodities trading.</p></section>
+                <section><h3 className="text-flame-core font-semibold mb-2">Reporting</h3><p>We maintain comprehensive records and submit required reports to regulatory authorities as mandated by law.</p></section>
+              </div>
+            )}
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
 
       {showWallet && <DigitalWallet onClose={() => setShowWallet(false)} />}
       {selectedProduct && (
