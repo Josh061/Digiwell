@@ -1,0 +1,435 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 🔥 FLAME DESIGN SYSTEM 🔥 */
+    /* Core Flame Colors */
+    --flame-core: 25 100% 50%;        /* #FF6600 - Inner flame */
+    --flame-hot: 35 100% 55%;         /* #FFB800 - Hot center */
+    --flame-glow: 45 100% 60%;        /* #FFD633 - Outer glow */
+    --flame-ember: 15 100% 40%;       /* #CC3300 - Deep ember */
+    --flame-dark: 10 90% 8%;          /* #1A0A04 - Dark coal */
+    --flame-smoke: 20 20% 15%;        /* #2D2520 - Smoke gray */
+
+    /* Semantic colors */
+    --background: 10 80% 4%;          /* Deep charcoal black */
+    --foreground: 40 30% 95%;         /* Warm white */
+    --card: 15 60% 7%;                /* Dark ember card */
+    --card-foreground: 40 30% 95%;
+    --primary: 25 100% 50%;           /* Core flame orange */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 35 100% 55%;         /* Hot amber */
+    --secondary-foreground: 10 80% 10%;
+    --muted: 15 40% 12%;
+    --muted-foreground: 30 20% 65%;
+    --accent: 45 100% 60%;            /* Flame glow */
+    --accent-foreground: 10 80% 10%;
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 20 50% 18%;
+    --input: 20 50% 15%;
+    --ring: 25 100% 55%;
+    --radius: 1rem;
+
+    /* Popover */
+    --popover: 15 60% 7%;
+    --popover-foreground: 40 30% 95%;
+
+    /* Sidebar */
+    --sidebar-background: 10 70% 5%;
+    --sidebar-foreground: 40 30% 95%;
+    --sidebar-primary: 25 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 35 100% 55%;
+    --sidebar-accent-foreground: 10 80% 10%;
+    --sidebar-border: 20 50% 18%;
+    --sidebar-ring: 25 100% 55%;
+  }
+
+  .dark {
+    --background: 10 90% 3%;
+    --foreground: 40 25% 96%;
+    --card: 12 70% 5%;
+    --card-foreground: 40 25% 96%;
+    --primary: 28 100% 55%;
+    --primary-foreground: 10 80% 8%;
+    --secondary: 38 100% 58%;
+    --secondary-foreground: 10 80% 8%;
+    --muted: 15 50% 10%;
+    --muted-foreground: 30 25% 70%;
+    --accent: 45 100% 62%;
+    --accent-foreground: 10 80% 8%;
+    --border: 18 55% 20%;
+    --input: 18 55% 15%;
+    --ring: 28 100% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    background: linear-gradient(135deg, hsl(10, 90%, 3%) 0%, hsl(15, 70%, 6%) 50%, hsl(10, 85%, 4%) 100%);
+  }
+
+  /* Flame display font */
+  .font-flame {
+    font-family: 'Orbitron', 'Inter', sans-serif;
+  }
+}
+
+/* ============================================
+   🔥 FLAME ANIMATIONS
+   ============================================ */
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes flameFlicker {
+  0%, 100% { opacity: 1; transform: scaleY(1) scaleX(1); }
+  25% { opacity: 0.9; transform: scaleY(1.02) scaleX(0.98); }
+  50% { opacity: 1; transform: scaleY(0.98) scaleX(1.02); }
+  75% { opacity: 0.95; transform: scaleY(1.01) scaleX(0.99); }
+}
+
+@keyframes emberGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 102, 0, 0.4), 0 0 40px rgba(255, 102, 0, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(255, 102, 0, 0.6), 0 0 60px rgba(255, 102, 0, 0.3); }
+}
+
+@keyframes fireGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatEmber {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-15px) rotate(5deg); opacity: 1; }
+}
+
+@keyframes heatWave {
+  0%, 100% { filter: blur(0px); }
+  50% { filter: blur(0.5px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 184, 0, 0.5), inset 0 0 10px rgba(255, 102, 0, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(255, 184, 0, 0.8), inset 0 0 20px rgba(255, 102, 0, 0.2); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-scroll { animation: scroll 30s linear infinite; }
+.animate-fade-in { animation: fadeIn 0.5s ease-out; }
+.animate-slide-in { animation: slideIn 0.4s ease-out; }
+.animate-flame-flicker { animation: flameFlicker 3s ease-in-out infinite; }
+.animate-ember-glow { animation: emberGlow 2s ease-in-out infinite; }
+.animate-fire-gradient { animation: fireGradient 8s ease infinite; background-size: 200% 200%; }
+.animate-float-ember { animation: floatEmber 4s ease-in-out infinite; }
+.animate-heat-wave { animation: heatWave 2s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+.animate-shimmer { animation: shimmer 3s linear infinite; }
+
+/* ============================================
+   🔥 FLAME GRADIENTS
+   ============================================ */
+
+.gradient-flame {
+  background: linear-gradient(135deg, #1A0A04 0%, #CC3300 25%, #FF6600 50%, #FFB800 75%, #FFD633 100%);
+}
+
+.gradient-flame-dark {
+  background: radial-gradient(ellipse at bottom, #CC3300 0%, #1A0A04 70%, #0D0502 100%);
+}
+
+.gradient-flame-hero {
+  background:
+    radial-gradient(ellipse 120% 100% at 50% 100%, rgba(255, 102, 0, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 30% 80%, rgba(255, 184, 0, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 70% 90%, rgba(204, 51, 0, 0.4) 0%, transparent 50%),
+    linear-gradient(180deg, #0D0502 0%, #1A0A04 40%, #2D1810 100%);
+}
+
+.gradient-ember {
+  background: linear-gradient(180deg, #FF6600 0%, #CC3300 50%, #1A0A04 100%);
+}
+
+.gradient-glow {
+  background: linear-gradient(90deg, transparent, rgba(255, 184, 0, 0.3), transparent);
+}
+
+/* ============================================
+   🔥 GLASS & FLAME EFFECTS
+   ============================================ */
+
+.glass {
+  background: rgba(26, 10, 4, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 102, 0, 0.2);
+}
+
+.glass-flame {
+  background: linear-gradient(135deg, rgba(255, 102, 0, 0.1) 0%, rgba(26, 10, 4, 0.8) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 102, 0, 0.3);
+  box-shadow:
+    0 8px 32px rgba(255, 102, 0, 0.15),
+    inset 0 1px 0 rgba(255, 184, 0, 0.2);
+}
+
+.flame-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(26, 10, 4, 0.9), rgba(26, 10, 4, 0.9)) padding-box,
+    linear-gradient(135deg, #FF6600, #FFB800, #FF6600) border-box;
+}
+
+.flame-glow {
+  box-shadow:
+    0 0 10px rgba(255, 102, 0, 0.3),
+    0 0 20px rgba(255, 102, 0, 0.2),
+    0 0 40px rgba(255, 102, 0, 0.1);
+}
+
+.ember-card {
+  background: linear-gradient(145deg, rgba(45, 24, 16, 0.9) 0%, rgba(26, 10, 4, 0.95) 100%);
+  border: 1px solid rgba(255, 102, 0, 0.25);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(255, 102, 0, 0.1),
+    inset 0 1px 0 rgba(255, 184, 0, 0.1);
+}
+
+.ember-card:hover {
+  border-color: rgba(255, 102, 0, 0.5);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(255, 102, 0, 0.2),
+    inset 0 1px 0 rgba(255, 184, 0, 0.2);
+}
+
+/* ============================================
+   🔥 FLAME BUTTONS
+   ============================================ */
+
+.btn-flame {
+  background: linear-gradient(135deg, #FF6600 0%, #FFB800 50%, #FF6600 100%);
+  background-size: 200% 200%;
+  color: #1A0A04;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 15px rgba(255, 102, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-flame:hover {
+  animation: fireGradient 2s ease infinite;
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 25px rgba(255, 102, 0, 0.6),
+    0 0 40px rgba(255, 184, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.btn-ember {
+  background: transparent;
+  color: #FFB800;
+  font-weight: 600;
+  border: 2px solid rgba(255, 102, 0, 0.5);
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.btn-ember:hover {
+  background: rgba(255, 102, 0, 0.15);
+  border-color: #FF6600;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+}
+
+/* ============================================
+   🔥 FLAME INPUTS
+   ============================================ */
+
+.input-flame {
+  background: rgba(26, 10, 4, 0.8);
+  border: 1px solid rgba(255, 102, 0, 0.2);
+  border-radius: 12px;
+  color: #FFF3E0;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+}
+
+.input-flame:focus {
+  outline: none;
+  border-color: #FF6600;
+  box-shadow:
+    0 0 0 3px rgba(255, 102, 0, 0.2),
+    0 0 20px rgba(255, 102, 0, 0.15);
+}
+
+.input-flame::placeholder {
+  color: rgba(255, 184, 0, 0.4);
+}
+
+/* ============================================
+   🔥 MOBILE OPTIMIZATIONS
+   ============================================ */
+
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Flame-styled scrollbar for desktop */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 10, 4, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF6600, #CC3300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FFB800, #FF6600);
+}
+
+/* Safe area insets for iOS and Android notches */
+.safe-area-inset {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top), 1rem);
+}
+
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* ============================================
+   🔥 TEXT EFFECTS
+   ============================================ */
+
+.text-flame {
+  background: linear-gradient(135deg, #FF6600 0%, #FFB800 50%, #FFD633 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-ember {
+  color: #FFB800;
+  text-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+}
+
+.text-glow {
+  text-shadow:
+    0 0 10px rgba(255, 184, 0, 0.8),
+    0 0 20px rgba(255, 102, 0, 0.6),
+    0 0 40px rgba(255, 102, 0, 0.4);
+}
+
+/* ============================================
+   🔥 SPECIAL EFFECTS
+   ============================================ */
+
+.flame-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF6600, #FFB800, #FF6600, transparent);
+  border: none;
+  opacity: 0.6;
+}
+
+.ember-dot {
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #FFB800 0%, #FF6600 50%, transparent 100%);
+  border-radius: 50%;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Floating ember particles (for hero sections) */
+.ember-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #FFB800, transparent);
+  border-radius: 50%;
+  animation: floatEmber 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ember-particle:nth-child(2) { animation-delay: 1s; left: 20%; }
+.ember-particle:nth-child(3) { animation-delay: 2s; left: 40%; }
+.ember-particle:nth-child(4) { animation-delay: 3s; left: 60%; }
+.ember-particle:nth-child(5) { animation-delay: 4s; left: 80%; }
